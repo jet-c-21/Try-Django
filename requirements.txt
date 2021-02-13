@@ -1,0 +1,9 @@
+django
+
+# jupyter extension
+jupyter
+ipython
+django-extensions
+
+# For ImageField
+Pillow
