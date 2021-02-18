@@ -10,13 +10,49 @@ from .models import Product
 
 
 class ProductForm(forms.ModelForm):
+    title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'your title'}))
+
+    description = forms.CharField(required=False,
+                                  widget=forms.Textarea(
+                                      attrs={
+                                          'placeholder': 'your description',
+                                          'class': 'nice-text-area',
+                                          'rows': 3,
+                                          'cols': 30,
+                                      }
+                                  ))
+    price = forms.DecimalField(initial=9.99)
+
+    email = forms.EmailField()
+
     class Meta:
         model = Product
         fields = [
             'title',
             'description',
-            'price'
+            'price',
+            'email',
         ]
+
+    def clean_title(self, *args, **kwargs):
+        """
+        clean_xxx is a built-in name
+        if you change clean to cleanx or clean_x_title, it will not work anymore!
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        title = self.cleaned_data.get('title')
+        if 'puff' in title:
+            return title
+        else:
+            raise forms.ValidationError('this is not a valid title')
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email.endswith('edu'):
+            raise forms.ValidationError('this is not a valid email')
+        return email
 
 
 class RawProductForm(forms.Form):
