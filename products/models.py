@@ -16,7 +16,7 @@ class Product(models.Model):
 
     summary = models.TextField(blank=True, null=True)
 
-    featured = models.BooleanField()
+    featured = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.id}. {self.title}"
