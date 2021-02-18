@@ -4,6 +4,18 @@ from .models import Product
 from .forms import ProductForm, RawProductForm
 
 
+def render_initial_data(request):
+    obj = Product.objects.get(id=3)
+    form = ProductForm(request.POST or None, instance=obj)
+    if form.is_valid():
+        form.save()
+
+    context = {
+        'form': form
+    }
+    return render(request, 'products/product_create.html', context)
+
+
 # def product_create_view(request):
 #     my_form = RawProductForm()
 #     if request.method == 'POST':

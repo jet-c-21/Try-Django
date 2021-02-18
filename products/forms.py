@@ -9,7 +9,7 @@ from django import forms
 from .models import Product
 
 
-class ProductForm(forms.ModelForm):
+class ProductFormWithValidation(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'your title'}))
 
     description = forms.CharField(required=False,
@@ -53,6 +53,29 @@ class ProductForm(forms.ModelForm):
         if not email.endswith('edu'):
             raise forms.ValidationError('this is not a valid email')
         return email
+
+
+class ProductForm(forms.ModelForm):
+    title = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'your title'}))
+
+    description = forms.CharField(required=False,
+                                  widget=forms.Textarea(
+                                      attrs={
+                                          'placeholder': 'your description',
+                                          'class': 'nice-text-area',
+                                          'rows': 3,
+                                          'cols': 30,
+                                      }
+                                  ))
+    price = forms.DecimalField(initial=9.99)
+
+    class Meta:
+        model = Product
+        fields = [
+            'title',
+            'description',
+            'price',
+        ]
 
 
 class RawProductForm(forms.Form):
