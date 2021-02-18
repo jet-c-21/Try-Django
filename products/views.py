@@ -1,7 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from .models import Product
 from .forms import ProductForm, RawProductForm
+
+
+def dynamic_lookup_view(request, product_id):
+    obj = get_object_or_404(Product, pk=product_id)
+    context = {
+        'object': obj
+    }
+    return render(request, 'products/product_detail.html', context)
 
 
 def render_initial_data(request):
