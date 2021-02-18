@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Product(models.Model):
@@ -22,4 +23,6 @@ class Product(models.Model):
         return f"{self.id}. {self.title}"
 
     def get_absolute_url(self):
-        return f"/products/{self.id}/"
+        # return f"/products/{self.id}/"
+        # use reverse to replace the hard code string (products)
+        return reverse("product-detail", kwargs={'product_id': self.id})
