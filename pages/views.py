@@ -11,7 +11,7 @@ def contact_view(request):
     return HttpResponse(html_str)
 
 
-def about_view(request):
+def about_view(request, *args, **kwargs):
     my_context = {
         'my_text': "this is about us",
         'my_number': 123,
